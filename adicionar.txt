@@ -1,0 +1,5 @@
+O procedimento de conexão é um dos procedimentos mais utilizados durante o controle do carro no dispositivo Android.
+
+É verificado se o dispositivo já está habilitado para a conexão. Caso contrário, o aplicativo informa ao usuário que deve ser habilitado o bluetooth e em seguida pede solicitação ao sistema para que o ative.
+
+Mas se o bluetooth estiver habilitado para conexão, 

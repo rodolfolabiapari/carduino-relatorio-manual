@@ -1,0 +1,290 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                              %
+%                             Definicao para a classe Artigo                                   %
+%                                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[portugues, brazil, a4paper,12pt]{article}
+\bibliographystyle{plain}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                              %
+%                       Pacotes a utilizar na compilacao do documento                          %
+%                                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[brazil]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                              %
+%                       Configuracao dos pacotes utilizados no doc.                            %
+%                                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\geometry{a4paper,left=3cm,right=3cm,top=2.5cm,bottom=2.93cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                              %
+%                             Capa do relatorio tecnico                                        %
+%                                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{titlepage}
+
+  \vfill
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.45]{logo.jpg}
+\end{figure}
+
+  \vfill
+
+  \begin{center}
+    \begin{Large}
+      \textbf{INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DE MINAS GERAIS}
+    \end{Large}
+  \end{center}
+
+  \begin{center}
+    \begin{large}
+      \textbf{Bacharelado em Ciência da Computação e\\ Engenharia Elétrica} \\[1.4cm] 
+    \end{large}
+  \end{center}
+
+  \vfill
+
+  \begin{center}
+    \begin{large}
+      \textbf{Iniciação Científica: \\ Projeto e desenvolvimento de um carro robô controlado por smartphone, utilizando a plataforma Amarino \\ (Arduino e Google Android)} \\
+      Relatório e Manual do Módulo Software no Google Android
+    \end{large}
+  \end{center}
+
+  \vfill
+
+  \begin{center}
+    \begin{large}
+      Alunos: \\
+        João Paulo Fernandes de Cerqueira César - joaopaulofcc@gmail.com \\
+		Rodolfo Labiapari Mansur Guimarães - rodolfolabiapari@gmail.com \\
+		Tarlei Almeida - tarleialmeida@hotmail.com
+    \end{large}
+  \end{center}
+
+\vfill
+
+  \begin{center}
+    \begin{large}
+      Professores Orientadores: Prof. Dr. Otávio de Souza Martins Gomes e \\ Prof. Dr. Rafael Vinícius Tayette da Nobrega
+    \end{large}
+  \end{center}
+
+\vfill
+
+  \begin{center}
+    \begin{large}
+      Formiga - MG \\
+      \today \\
+    \end{large}
+  \end{center}
+
+\clearpage
+\tableofcontents 
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                              %
+%                               Nova Seção do Documento                                        %
+%                                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Introdução}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                              %
+%                               Nova Seção do Documento                                        %
+%                                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Construção do Software}
+
+
+\subsection{Inicialização da Software}
+Primeiramente foi definido os eventos que irão inicializar o aplicativo para que nenhuma interferência aconteça enquanto o usuário estiver usando o software.
+
+\subsubsection{Variáveis de inicialização}
+
+Nas inicializações, foram escolhidas as imagens de cada botão, valores de váriáveis sendo lógicos, frases entre outros. 
+
+\subsubsection{Funções inicializadoras}
+Foram utilizadas eventos específicos de execução para controlar as ações dos usuários. Por exemplo a de inicialização de tela (Screen1.Initialize), ela desativa a função \textit{sleep} (função que faz uma pausa de alguns segundos) para o programa não abortar automaticamente, retira o espaço para exibir a distância pois isso só deverá aparecer somente quando o usuário achar necessário.
+
+Ainda na inicialização, ele irá ativar, automaticamente o módulo Bluetooth do Aparelho móvel pois, caso o usuário esqueça ou até mesmo não tenha conhecimento da necessidade deste, ele já poupa uma funçao focando o controle do usuário somente no carro.
+
+\subsubsection{Empareando}
+lista.BeforePicking e lista.AfterPicking
+
+lista.BeforePicking Procedimento responsável por exibir a lista de dispositivos ativos no momento da execução da função.
+
+lista.AfterPicking Procedimento de ``pareação'' dos dispositivos. Ela recolhe o endereço do dispositivo conectado e logo em seguida define ativa o modo de operação do carro já ativando o sensor ultrassônico.
+
+\subsubsection{Comandos do carro utilizando os botões direcionais e controle de voz}
+O movimento do carro para girar a direita, análogo aos outros (esquerda, frente, frenteRápido, Ré e comandos de vóz) é gerenciado por um condicional que, após o acionamento do botão, ele verifica se o dispositivo está conectado com o carro pois caso contrário ele solicitará a conexão imediata. Se conectado ele fará com que o dispositivo, se possível, vibre alertando a ação que será executada e verificará se há possibilidade de colisão do carro com qualquer objeto \textit{em sua frete} podendo abortar a execução da ação somente neste estágio desta função, ou seja antes do movimento. Mas se nada o impedir enviará o comando para o carro a fim de promover a ação solicitada pelo usuário.
+
+Deve-se lembrar que o clique curto no botão de comando de voz significa o acionamento deste. Já o clique longo, interrompe todos os movimentos feitos pelo carro. É utilizado como uma execução de \textit{emergência} do sistema.
+
+\subsubsection{Desempareamento}
+A desconexão segura entre os dispositivos é necessária para que possa ambos conectar com outros dispositivos (o smartphone em um fone de ouvido e o carro em outro smartphone qualquer).
+
+Após a verificar se o dispositivo já está desconectado ao executar a ação, o smartphone é avisado que se está sendo desconectado e inicia o processo de interromper qualquer movimento que o carro estiver fazendo, desligando o sensor ultrassônico poupando gastos excessivos. Isso impossibilita que atrapalhe ou confunda o usuário numa futura/próxima conexão com outro dispositivo.
+
+\subsubsection{Screen1.OtherScreenClosed}
+Escrever sobre isto.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                              %
+%                               Nova Seção do Documento                                        %
+%                                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Principais Funções e Procedimentos}
+\subsubsection{Distância captada pelo sensor}
+Procedimento responsável por enviar os dados do sensor ultrassônico através do Bluetooth para o Smartphone controlador do carro.
+
+É importante ressaltar que como a transimssão de dados é totalmente e únicamente serial, só podem ser enviados somente um dado por vez e vários dados devem ser enviados mas com um com maior privilégios que outros. Por isso, no recebimento de dados de distância, há um monitoramento de quantidade de \textit{bytes} que são enviados do Arduino até o Android. Se esta trasferência for algo menor que 0 (zero), o sensor tem livre passagem para seus dados. Com isso, o não há tempo ocioso em transferência de dados \textit{quando a distância for habilitada}.
+
+\subsubsection{Vibração}
+A vibração é constantemente utilizada para cocentrar o usuário em suas ações. Com isso seu foco consegue fixar no carro para que todo cuidado ocorra em cada movimento resultado. Foi definido como padrão o tempo de vibração de cem microssegundos ($ms$).
+
+\subsubsection{chamaMonitoramento} 
+
+que chama a clock conexão $\downarrow$.
+
+\subsubsection{clock Conexão. timer}
+a
+
+\subsubsection{Imagens Padrão}
+Procedimento responsávelm por retornar as imagens padrão. Ao clicar num botão, no movimento \textit{hover} (tocar no botão sem remover o dedo; `continar pressionando'), o usuário poderá ver que há uma diferença na coloração do botão, indicando perfeitamente qual o botão foi precionado e por quanto tempo. E ao retiar o dedo, é necessáro que está imagem volte ao normal (padrão; imagem qando não pressionado) que será executada com este procedimento.
+
+\subsubsection{Exibe e esconde a Distância}
+Ao comando do usuário, é possível que apareça na sua tela do smartphone uma etiqueta que exibirá o valor da distância, em centímetros ($cm$), de qualquer objeto que esteja num intervalo de confiança que foi definido entre 0 a 45 $cm$.
+
+Antes da função de distância frontal ser ativada completamente, deve-se verificar se o dispositivo está conectado ao carro. Se sim os comando serão ativados e aparecerá no software do usuário a etiqueta \textit{distância} e \textit{centímetros}.
+
+O mesmo vale para a desativação dos controles. Há a verificação de conectividade para depois a desabilitação da etiqueta.
+
+\subsubsection{Página Sobre}
+Quando o usuário clicar sobre o ícone Sobre, será enviado para a página, ainda pertencente ao aplicativo, que irá informar ao usuário detalhes gerais sobre o aplicativo como o que é o aplicativo, onde foi desenvolvido, autores de produção e orientação do projeto informando os responsáveis finais.
+
+\begin{verbatim}
+Carduino é um aplicativo livre, criado pelo grupo de pesquisa 
+C2ISC (Concepção de Circuitos Integrados e Sistemas de Comunicação) 
+do IFMG campus Formiga.
+
+O app é produto do projeto de pesquisa:
+"Projeto e desenvolvimento de um carro robô controlado por Smartphone,
+utilizando a plataforma Amarino (Arduino e Google Android)"
+\end{verbatim}
+
+E numa segunda tela:
+\begin{verbatim}
+Integrantes
+
+Alunos:
+João Paulo FCC - 4 P - C.C.
+Rodolfo Labiapari - 4 P - C.C.
+Tarlei Almeida - 4 P - E.E.
+
+Orientador:
+
+Otávio de Souza Martins Gomes
+Coorientador:
+
+Rafael Tayette da Nobrega
+
+Novembro de 2013
+Formiga/MG
+\end{verbatim}
+
+Existirá exatamente três botões nesta janela que será aberta. O \verb%Sobre% \verb%Mais% \verb%Fechar%. Como o texto identificando o produto final do software é extenso, foi necessário dividi-lo em duas telas que serão encorrentadas através do botão chamado \verb%Mais% e o de retorno  \verb%Voltar%. O usuário poderá migrar da janela \textit{Ajuda} até a janela \textit{Sobre} e vice-versa.
+
+Somente na página \textit{Sobre}, foi posto uma música de \textit{8-bit} tocando sem pausa que foi proposto pelos desenvolvedores para que, de modo implícito, que o código, foi feito por fins acadêmicos, seguindo regras impostas pelos orientadores, de modo que a criatividade de seus projetistas não seja limitada mas sim direcionada abrindo inúmeras possibilidades de variação e melhoria de aplicativos trabalhando-se harmonicamente independentemente do propósito final do projetista, do orientador ou da instituição local.
+
+\subsubsection{Página Ajuda}
+Igualmente ao evento de redirecionamento da página Sobre, o usuário será redirecionado a página de Ajuda do aplicativo. Será exibido o seguinte texto para auxiliar o usuário no controle do carro:
+
+\begin{verbatim}
+Não encontrei o texto
+\end{verbatim}
+
+\subsubsection{Função Play Sound}
+Sempre que o usuário fazer alguma função que for de importância ou de atenção será executado um som , em cada evento um som diferente, focando toda atenção do usuário no controle em suas em sua posse.
+
+O som é tocado apenas uma vez em cada ação do evento. Como todos as outras funções, é veficiado se o dispositivo está conectado para o envio da função para o carro. Caso sim, ele vibrará tocando a música predefina pelo programa no evento.
+
+\subsubsection{Procedimento anti Colisão}
+A colisão é algo que não poderá acontecer ao carro robô evitando o seu estrago. Então, adicionou-se um sensor Ultrassônico na dianteira do carro para que monitorasse, constantemente a distância de obstáculos. A capacidade de reconhecer um objeto em um intervalo de confiança é de 4 à 4,5 metros. Então decidiu-se que qualquer obstáculo que estiver menor que 15 centímentros de distância da dianteira do carro acionará um comando que abortará qualquer movimento que o carro estiver fazendo.
+
+Ele exibirá uma etiqueta e o executará um som em português que dirá \verb%Atenção!% ao parar o carro evitando danos.
+
+\subsubsection{Fala Distância}
+O usuário pode escolher para que o programa `fale' a distância para ele. Isso facilita e dinamiza o  aplicativo tornando-o mais interativo aos olhos do usuário.
+
+Esta função verifica se o dispositivo está perfeitamente conectado e dita o valor para o usuário.
+
+\subsubsection{Função de Reconhecimento de comandos vocais}
+Uma função de reconhecimento de voz, específica, se encarregará de gravar, ao toque de um botão, o que o usuário falar de acordo com os requisistos de funcionamento, e promover a ação do carro somente com o toque no botão principal no centro e mencionando sua ação somente com a voz.
+
+Os requisistos de um bom funcionamento podem depender diretamente de:
+
+\begin{itemize}
+	\item uma conexão com a Internet;
+	\item que não haja barulhos que possam atrapalhar o aplicativo gravar o comando;
+	\item falar alto (não exagerando), um pouco devagar perante a velocidade de conversas informais e com o português correto e claro para o entendimento.
+\end{itemize}
+
+\subsubsection{Encerramento do Programa}
+
+No encerramento do aplicativo, foi utilizado uma sequência de perguntas para confirmar a afirmação do usuário. Essa prática foi utilizada pela probabilidade do usuário, ao toque no botão sem  a própria intenção, possibilitando que ele retorne ao mesmo ponto em que ele esteve sem qualquer prejuízo.
+
+\begin{description}
+\item[Mensagem: ]Você deseja realmente sair do aplicativo?
+\item[Botões: \quad\,\,\,\,](Sim) (Não)
+\end{description}
+
+Qualquer cancelamento nesta área será redirecionado a tela do aplicativo onde havia parado.
+
+Quando o usuário responder que deseja sair, o aplicativo se desconectará do carro automaticamente e em seguida o próprio fechamento voltando para o Sistema Operacional do dispositivo (área de trabalho do aparelho).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                              %
+%                               Nova Seção do Documento                                        %
+%                                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+%%%%%%%%%%% Example %%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Bibliografia}
+\begin{thebibliography}{100} % 100 is a random guess of the total number of 
+
+%references
+\bibitem{robo} roboToSH. Acessado 22/10/2013. Disponível em: http://robotosh.blogspot.jp/2012/07/arduino-jy-mcu-\textit{Bluetooth}.html.
+
+\bibitem{wiki} Arduino - \textit{Bluetooth} HC-05. Acessado 19/10/2013. Disponível em: http://www.tuxti.com.br/wiki/index.php/Arduino\_-\_Bluetooth\_HC-05
+
+\bibitem{seguranca} See why \textit{Bluetooth} technology is simple, secure, everywhere. Acessado 19/10/2013. Disponível em: http://www.bluetooth.com/Pages/Simple-Secure-Everywhere.aspx
+\end{thebibliography}
+
+\end{document}
